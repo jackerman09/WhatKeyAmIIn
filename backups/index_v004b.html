@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>KeyFinder</title>
+		<link rel="stylesheet" href="css/main.css" type="text/css" />
+
+		
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+		<script src="js/KeyFinder.js"></script>
+		
+	</head>
+	<body id="index" class="home">
+		<!--<div id="testDiv">
+			<p id="testP">test</p>
+		</div>-->
+		<header id="banner" class="body">
+			<h1>What Key Am I In?</h1>
+
+			<nav>
+				<ul>
+					<li><a href="index_v004b.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact Us</a></li>
+				</ul>
+			</nav>
+		</header>
+		<div id="wrapper">
+			<div id="main">
+				<div id="chordInputDiv" class="leftDivs">
+					<form id="chordInputForm" name="chordInput" action="submitChords()">
+						<table id="chordInputTable">
+							<tr>
+								<td>1st:</td>
+								<td>
+									<select id="1stChord" name="1stChord" class="inputChord">
+										<option value="a">A</option>
+										<option value="b">B</option>
+										<option value="c">C</option>
+										<option value="d">D</option>
+										<option value="e">E</option>
+										<option value="f">F</option>
+										<option value="g">G</option>
+									</select>
+								</td>
+								<td>
+									<select id="1stForB" name="1stForB" class="inputChord">
+										<option value="">Natural</option>
+										<option value="#">#</option>
+										<option value="b">b</option>
+									</select>
+								</td>
+								<td>
+									<select id="1stmOrM" name="1stmOrM" class="inputChord">
+										<option value="Maj">Major</option>
+										<option value="m">Minor</option>
+										<option value="dom">Dominant</option>
+									</select>
+								</td>
+								<td>
+									<select id="1stOther" name="1stOther" class="inputChord">
+										<option value=""> -- </option>
+										<option value="5">5th</option>
+										<option value="7">7th</option>
+										<option value="9">9th</option>
+										<option value="11">11th</option>
+										<option value="sus">Sus</option>
+										<option value="dim">Dim</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>2nd:</td>
+								<td>
+									<select id="2ndChord" name="2ndChord" class="inputChord">
+										<option value="a">A</option>
+										<option value="b">B</option>
+										<option value="c">C</option>
+										<option value="d">D</option>
+										<option value="e">E</option>
+										<option value="f">F</option>
+										<option value="g">G</option>
+									</select>
+								</td>
+								<td>
+									<select id="2ndForB" name="2ndForB" class="inputChord">
+										<option value="">Natural</option>
+										<option value="#">#</option>
+										<option value="b">b</option>
+									</select>
+								</td>
+								<td>
+									<select id="2ndmOrM" name="2ndmOrM" class="inputChord">
+										<option value="Maj">Major</option>
+										<option value="m">Minor</option>
+										<option value="dom">Dominant</option>
+									</select>
+								</td>
+								<td>
+									<select id="2ndOther" name="2ndOther" class="inputChord">
+										<option value=""> -- </option>
+										<option value="5">5th</option>
+										<option value="7">7th</option>
+										<option value="9">9th</option>
+										<option value="11">11th</option>
+										<option value="sus">Sus</option>
+										<option value="dim">Dim</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+					</form>
+								
+					<p><a id="addAChord" href="#">Add Another Chord</a></p>
+					<p><a id="removeChord" href="#">Remove a Chord</a></p>
+					<p>
+						<button id="getKey" type="button">Get the Key!</button>
+						<button id="clearResults" type="button">Clear Results</button>
+					</p>
+
+				</div>
+				<div id="errorDiv" class="leftDivs">
+					<p id="errorP"></p>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<nav>
+				<ul>
+					<li><a href="index_v004a.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact Us</a></li>
+				</ul>
+			</nav>
+			<p><em>What Key Am I In? designed by Jason Ackerman, Copywrite 2013<em></p>
+		</footer>
+	</body>
+</html>

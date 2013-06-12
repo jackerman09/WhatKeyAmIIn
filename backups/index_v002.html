@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>KeyFinder</title>
+		<link rel="stylesheet" href="css/main.css" type="text/css" />
+
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+		<script src="KeyFinder.js"></script>
+		<script>
+			$(document).ready(function(){
+				//Number of input boxes currently in the DOM
+				var numChords = 2;
+				//The key(s) you are in (returned to the screen)
+				
+				var keys = {
+					//'a': ['a','asus','aadd9','a6','am7','am9','bm','bm6','bm7','bm9','bm11','bm13','c#m','c#m7','c#m11','d','dadd9','d6','dm7','dm9','dm7#11','e','esus','eadd9','e6','e7','e7sus','e9','e11','e13','f#m','f#m7','f#m11','g#m7b5'],
+					'C/Am': ['c','d','e','f','g','a','b'],
+					'G/Em': ['c','d','e','f#', 'gb','g','a','b'],
+					'D/Bm': ['g','a','b','c#','db','d','e','f#','gb'],
+					'A/F#m': ['g#','ab','a','b','c#','db','d','e','f#','gb'],
+					'E/C#m': ['g#','ab','a','b','c#','db','d#','eb','e','f#','gb'],
+					'B/G#m': ['g#','ab','a#','bb','b','c#','db','d#','e','f#','gb'],
+					'F# or Gb/Eb or D#m': ['g#','ab','a#','bb','b','c#','db','d#','eb','e#','f','f#','gb'],
+					'Db/Bbm': ['g#','ab','a#','bb','b#','c','c#','db','d#','eb','e#','f','f#','gb'],
+					'Ab/Fm': ['g#','ab','a#','bb','b#','c','c#','db','d#','eb','e#','f','f#','gb'],
+					'Eb/Cm': ['g','g#','ab','a#','bb','c','d','d#','eb','f#','gb'],
+					'Bb/Gm':['a#','bb','c','d','d#','eb','f','g','a'],
+					'F/Dm': ['g','a','a#','bb','c','d','e','f']
+				};
+				var scales = {
+					//'a': ['a','asus','aadd9','a6','am7','am9','bm','bm6','bm7','bm9','bm11','bm13','c#m','c#m7','c#m11','d','dadd9','d6','dm7','dm9','dm7#11','e','esus','eadd9','e6','e7','e7sus','e9','e11','e13','f#m','f#m7','f#m11','g#m7b5'],
+					'C/Am': ['c','d','e','f','g','a','b'],
+					'G/Em': ['c','d','e','f#', 'gb','g','a','b'],
+					'D/Bm': ['g','a','b','c#','db','d','e','f#','gb'],
+					'A/F#m': ['g#','ab','a','b','c#','db','d','e','f#','gb'],
+					'E/C#m': ['g#','ab','a','b','c#','db','d#','eb','e','f#','gb'],
+					'B/G#m': ['g#','ab','a#','bb','b','c#','db','d#','e','f#','gb'],
+					'F# or Gb/Eb or D#m': ['g#','ab','a#','bb','b','c#','db','d#','eb','e#','f','f#','gb'],
+					'Db/Bbm': ['g#','ab','a#','bb','b#','c','c#','db','d#','eb','e#','f','f#','gb'],
+					'Ab/Fm': ['g#','ab','a#','bb','b#','c','c#','db','d#','eb','e#','f','f#','gb'],
+					'Eb/Cm': ['g','g#','ab','a#','bb','c','d','d#','eb','f#','gb'],
+					'Bb/Gm':['a#','bb','c','d','d#','eb','f','g','a'],
+					'F/Dm': ['g','a','a#','bb','c','d','e','f']
+				};
+				//Function to get each chord from the textInput fields, called by the 'Get the Key' button
+				function collectChords(){
+					var chords = [];
+					for(j=0;j<numChords;j++){
+						var i = j*4;
+						var chord = chordInputs[i].options[chordInputs[i].selectedIndex].value +
+									chordInputs[i+1].options[chordInputs[i+1].selectedIndex].value +
+									chordInputs[i+2].options[chordInputs[i+2].selectedIndex].value +
+									chordInputs[i+3].options[chordInputs[i+3].selectedIndex].value;
+						chords.push(chord);
+					}
+					return chords;
+				}
+				//Function to take the chords, see which keys they are in, and return the keys
+				function giveKeys(chords){
+					var addKey = true;
+					var retKeys = [];
+					for(var key in keys){
+						for(var chord in chords){
+							//TESTING ONLY --- //$('div#testDiv p#testP').append(' --- Testing' + ' ' + chords[chord] + ' in ' + keys[key] + ', and the result is: ' + jQuery.inArray(chords[chord],keys[key])); //testing//
+							
+							if(jQuery.inArray(chords[chord],keys[key])===-1) {
+								addKey = false;
+							}
+						} 
+						if(addKey===true){
+							retKeys.push(key);
+						}						
+						addKey = true;						
+					}
+					return retKeys;
+				}
+				//Helper function to make numbers ordinal
+				function ordinal(n){
+				   var s = [ "th", "st", "nd", "rd" ],
+				       v = n % 100;
+				   return n + ( s[ (v-20) % 10 ] || s[ v ] || s[ 0 ] );
+				}
+
+				///////////////////////////////////
+				//////////Click Listeners//////////
+				///////////////////////////////////
+
+				//Add another input box when 'Add Another Chord' is clicked
+				$('#addAChord').click(function(e){
+					if(numChords<8){
+						$('div#errorDiv p#errorP').hide();
+						$('#chordInputForm tr:nth-child('+ numChords + ')').after('<tr><td>'+ (ordinal(numChords+1)) + ':</td><td><input class="inputChord" type="text" name="' + ordinal(numChords+1) + 'Chord"></td></tr>');
+						numChords+=1;
+					} else{
+						$('div#errorDiv p#errorP').html('8 chords is the max.').show();
+					}
+				});
+
+				//Remove an input box when 'Remove a Chord' is clicked
+				$('#removeChord').click(function(e){
+					if(numChords>1){
+						$('div#errorDiv p#errorP').hide();
+						$('#chordInputForm tr:nth-child('+ (numChords) + ')').remove();
+						numChords-=1;
+					} else{
+						$('div#errorDiv p#errorP').html('1 chord is the minimum.').show();
+					}
+				});
+
+				//Return the key(s) when 'Get the Key' is clicked
+				$('#getKey').click(function(e){
+					//Get the DOM inputText fields from the screen
+					var chordInputs = $('.inputChord').get();
+					$('p#testP').html('working');
+
+					//Call collectChords to return an array of chords that the user input
+					$('div#errorDiv p#errorP').hide();
+					var chords = collectChords(chordInputs);
+
+					retKeys = giveKeys(chords);
+					//Build and add the return div to the DOM
+					$('div#errorDiv').after('<div id="giveKeys" class="leftDivs outputDivs">' +
+						'<table><tr><td>The following chords:</td></tr></table>' + 
+						'<p>' + chords.join(", ") + '</p>' +
+						'<p>are in the following keys:</p>' +
+						'<p>' + retKeys + '</p>' +
+					'</div>');
+					}
+				});
+				//Clear the results when the button 'Clear Results' button is clicked//
+				$('#clearResults').click(function(e){
+					$('.outputDivs').remove();
+				});
+				$('#getKey').click(function(e){
+					$('p#testP').html('working');
+				}
+			});
+		</script>
+	</head>
+	<body id="index" class="home">
+		<div id="testDiv">
+			<p id="testP">test</p>
+		</div>
+		<header id="banner" class="body">
+			<h1>What Key Am I In?</h1>
+
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="#">Contact Us</a></li>
+				</ul>
+			</nav>
+		</header>
+		<div id="chordInputDiv" class="leftDivs">
+			<form id="chordInputForm" name="chordInput" action="submitChords()">
+				<table id="chordInputTable">
+					<tr>
+						<td>1st:</td>
+						<td>
+							<select name="1stChord" class="inputChord">
+								<option value="a">A</option>
+								<option value="b">B</option>
+								<option value="c">C</option>
+								<option value="d">D</option>
+								<option value="e">E</option>
+								<option value="f">F</option>
+								<option value="g">G</option>
+							</select>
+						</td>
+						<td>
+							<select name="1stForB" class="inputChord">
+								<option value="nat">Natural</option>
+								<option value="#">#</option>
+								<option value="b">b</option>
+							</select>
+						</td>
+						<td>
+							<select name="1stmOrM" class="inputChord">
+								<option value="Maj">Major</option>
+								<option value="Min">Minor</option>
+							</select>
+						</td>
+						<td>
+							<select name="1stOther" class="inputChord">
+								<option value="7th">7th</option>
+								<option value="9th">9th</option>
+								<option value="11th">11th</option>
+								<option value="sus">Sus</option>
+								<option value="dim">Dim</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>2nd:</td>
+						<td>
+							<select name="2ndChord" class="inputChord">
+								<option value="a">A</option>
+								<option value="b">B</option>
+								<option value="c">C</option>
+								<option value="d">D</option>
+								<option value="e">E</option>
+								<option value="f">F</option>
+								<option value="g">G</option>
+							</select>
+						</td>
+						<td>
+							<select name="2ndForB" class="inputChord">
+								<option value="#">#</option>
+								<option value="b">b</option>
+							</select>
+						</td>
+						<td>
+							<select name="2ndmOrM" class="inputChord">
+								<option value="Maj">Major</option>
+								<option value="Min">Minor</option>
+							</select>
+						</td>
+						<td>
+							<select name="2ndOther" class="inputChord">
+								<option value="7th">7th</option>
+								<option value="9th">9th</option>
+								<option value="11th">11th</option>
+								<option value="sus">Sus</option>
+								<option value="dim">Dim</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</form>
+						
+			<p><a id="addAChord" href="#">Add Another Chord</a></p>
+			<p><a id="removeChord" href="#">Remove a Chord</a></p>
+			<p>
+				<button id="getKey" type="button">Get the Key!</button>
+				<button id="clearResults" type="button">Clear Results</button>
+			</p>
+
+		</div>
+		<div id="errorDiv" class="leftDivs">
+			<p id="errorP"></p>
+		</div>
+
+	</body>
+</html>

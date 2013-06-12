@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<meta name="description" content="Figure out what key you're in just by entering the chords you're playing, then display what positions on the guitar work for the key you're in!">
+		<meta name="author" content="Jason Ackerman">
+
+		<title>What Key Am I In?</title>
+
+		<link rel="stylesheet" href="css/main.css" type="text/css" />
+
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+		<script src="js/KeyFinder.js"></script>
+
+		<!--Google Analytics Script-->
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-38836821-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</head>
+	<body id="index" class="home">
+		<!-- <div id="testDiv">
+			<p id="testP">test</p>
+		</div> -->
+		<header id="banner" class="body">
+			<img class="whatKeyLogo" src="resources/WhatKeyLogo_v002.jpg" alt="What Key Am I In?" />
+			<nav>
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact Us</a></li>
+				</ul>
+				<ul id="fretBoardUL">
+					<li id="fretBoardLink"><a href="#">fretBoard</a></li>
+					<li id="keyBoardLink"><a href="#">keyBoard</a></li>
+				</ul>
+			</nav>
+		</header>
+		<div id="wrapper">
+			<div id="guitarPop">
+				<div id="fretBoard">
+					<div class="fret" id="tunerFret">
+						<div class="fretLabel">Tuner</div>
+						<div class="string"></div>
+						<div class="string" id="testString">
+							<div class="upArrowDiv"><a href="#" id="heUpArrow"><img class="upArrow" src="resources/UpTriangleArrow - NoBackground.jpg" /></a></div>
+							<div class="tunerNote e" id="tunerhe">E</div>
+							<div class="downArrowDiv"><a href="#" id="heDownArrow"><img class="downArrow" src="resources/DownTriangleArrow - NoBackground.jpg" /></a></div>
+						</div>
+						<div class="string">
+							<div class="upArrowDiv"><a href="#" id="bUpArrow"><img class="upArrow" src="resources/UpTriangleArrow - NoBackground.jpg" /></a></div>
+							<div class="tunerNote b" id="tunerb">B</div>
+							<div class="downArrowDiv"><a href="#" id="bDownArrow"><img class="downArrow" src="resources/DownTriangleArrow - NoBackground.jpg" /></a></div>
+						</div>
+						<div class="string">
+							<div class="upArrowDiv"><a href="#" id="gUpArrow"><img class="upArrow" src="resources/UpTriangleArrow - NoBackground.jpg" /></a></div>
+							<div class="tunerNote g" id="tunerg">G</div>
+							<div class="downArrowDiv"><a href="#" id="gDownArrow"><img class="downArrow" src="resources/DownTriangleArrow - NoBackground.jpg" /></a></div>
+						</div>
+						<div class="string">
+							<div class="upArrowDiv"><a href="#" id="dUpArrow"><img class="upArrow" src="resources/UpTriangleArrow - NoBackground.jpg" /></a></div>
+							<div class="tunerNote d" id="tunerd">D</div>
+							<div class="downArrowDiv"><a href="#" id="dDownArrow"><img class="downArrow" src="resources/DownTriangleArrow - NoBackground.jpg" /></a></div>
+						</div>
+						<div class="string">
+							<div class="upArrowDiv"><a href="#" id="aUpArrow"><img class="upArrow" src="resources/UpTriangleArrow - NoBackground.jpg" /></a></div>
+							<div class="tunerNote a" id="tunera">A</div>
+							<div class="downArrowDiv"><a href="#" id="aDownArrow"><img class="downArrow" src="resources/DownTriangleArrow - NoBackground.jpg" /></a></div>
+						</div>
+						<div class="string">
+							<div class="upArrowDiv"><a href="#" id="leUpArrow"><img class="upArrow" src="resources/UpTriangleArrow - NoBackground.jpg" /></a></div>
+							<div class="tunerNote e" id="tunerle">E</div>
+							<div class="downArrowDiv"><a href="#" id="leDownArrow"><img class="downArrow" src="resources/DownTriangleArrow - NoBackground.jpg" /></a></div>
+						</div>
+					</div>
+					<div class="fret" id="Fret0">
+						<div class="fretLabel">0</div>
+						<div class="string"></div>
+						<div class="string"><div class="note e heString">E</div></div>
+						<div class="string"><div class="note b bString">B</div></div>
+						<div class="string"><div class="note g gString">G</div></div>
+						<div class="string"><div class="note d dString">D</div></div>
+						<div class="string"><div class="note a aString">A</div></div>
+						<div class="string"><div class="note e leString">E</div></div>
+					</div>
+					<div class="fret" id="Fret1">
+						<div class="fretLabel">1</div>
+						<div class="string"></div>
+						<div class="string"><div class="note f heString">F</div></div>
+						<div class="string"><div class="note c bString">C</div></div>
+						<div class="string"><div class="note g# ab gString">Ab</div></div>
+						<div class="string"><div class="note d# eb dString">Eb</div></div>
+						<div class="string"><div class="note a# bb aString">Bb</div></div>
+						<div class="string"><div class="note f leString">F</div></div>
+					</div>
+					<div class="fret" id="Fret2">
+						<div class="fretLabel">2</div>
+						<div class="string"></div>
+						<div class="string"><div class="note f# gb heString">Gb</div></div>
+						<div class="string"><div class="note c# db bString">Db</div></div>
+						<div class="string"><div class="note a gString">A</div></div>
+						<div class="string"><div class="note e dString">E</div></div>
+						<div class="string"><div class="note b aString">B</div></div>
+						<div class="string"><div class="note f# gb leString">Gb</div></div>
+					</div>
+					<div class="fret" id="Fret3">
+						<div class="fretLabel">3</div>
+						<div class="string"></div>
+						<div class="string"><div class="note g heString">G</div></div>
+						<div class="string"><div class="note d bString">D</div></div>
+						<div class="string"><div class="note a# bb gString">Bb</div></div>
+						<div class="string"><div class="note f dString">F</div></div>
+						<div class="string"><div class="note c aString">C</div></div>
+						<div class="string"><div class="note g leString">G</div></div>
+					</div>
+					<div class="fret" id="Fret4">
+						<div class="fretLabel">4</div>
+						<div class="string"></div>
+						<div class="string"><div class="note g# ab heString">Ab</div></div>
+						<div class="string"><div class="note d# eb bString">Eb</div></div>
+						<div class="string"><div class="note b gString">B</div></div>
+						<div class="string"><div class="note f# gb dString">Gb</div></div>
+						<div class="string"><div class="note c# db aString">Db</div></div>
+						<div class="string"><div class="note g# ab leString">Ab</div></div>
+					</div>
+					<div class="fret" id="Fret5">
+						<div class="fretLabel">5</div>
+						<div class="string"></div>
+						<div class="string"><div class="note a heString">A</div></div>
+						<div class="string"><div class="note e bString">E</div></div>
+						<div class="string"><div class="note c gString">C</div></div>
+						<div class="string"><div class="note g dString">G</div></div>
+						<div class="string"><div class="note d aString">D</div></div>
+						<div class="string"><div class="note a leString">A</div></div>
+					</div>
+					<div class="fret" id="Fret6">
+						<div class="fretLabel">6</div>
+						<div class="string"></div>
+						<div class="string"><div class="note a# bb heString">Bb</div></div>
+						<div class="string"><div class="note f bString">F</div></div>
+						<div class="string"><div class="note c# db gString">Db</div></div>
+						<div class="string"><div class="note g# ab dString">Ab</div></div>
+						<div class="string"><div class="note d# eb aString">Eb</div></div>
+						<div class="string"><div class="note a# bb leString">Bb</div></div>
+					</div>
+					<div class="fret" id="Fret7">
+						<div class="fretLabel">7</div>
+						<div class="string"></div>
+						<div class="string"><div class="note b heString">B</div></div>
+						<div class="string"><div class="note f# gb bString">Gb</div></div>
+						<div class="string"><div class="note d gString">D</div></div>
+						<div class="string"><div class="note a dString">A</div></div>
+						<div class="string"><div class="note e aString">E</div></div>
+						<div class="string"><div class="note b leString">B</div></div>
+					</div>
+					<div class="fret" id="Fret8">
+						<div class="fretLabel">8</div>
+						<div class="string"></div>
+						<div class="string"><div class="note c heString">C</div></div>
+						<div class="string"><div class="note g bString">G</div></div>
+						<div class="string"><div class="note d# eb gString">Eb</div></div>
+						<div class="string"><div class="note a# bb dString">Bb</div></div>
+						<div class="string"><div class="note f aString">F</div></div>
+						<div class="string"><div class="note c leString">C</div></div>
+					</div>
+					<div class="fret" id="Fret9">
+						<div class="fretLabel">9</div>
+						<div class="string"></div>
+						<div class="string"><div class="note c# db heString">Db</div></div>
+						<div class="string"><div class="note g# ab bString">Ab</div></div>
+						<div class="string"><div class="note e gString">E</div></div>
+						<div class="string"><div class="note b dString">B</div></div>
+						<div class="string"><div class="note f# gb aString">Gb</div></div>
+						<div class="string"><div class="note c# db leString">Db</div></div>
+					</div>
+					<div class="fret" id="Fret10">
+						<div class="fretLabel">10</div>
+						<div class="string"></div>
+						<div class="string"><div class="note d heString">D</div></div>
+						<div class="string"><div class="note a bString">A</div></div>
+						<div class="string"><div class="note f gString">F</div></div>
+						<div class="string"><div class="note c dString">C</div></div>
+						<div class="string"><div class="note g aString">G</div></div>
+						<div class="string"><div class="note d leString">D</div></div>
+					</div>
+					<div class="fret" id="Fret11">
+						<div class="fretLabel">11</div>
+						<div class="string"></div>
+						<div class="string"><div class="note d# eb heString">Eb</div></div>
+						<div class="string"><div class="note a# bb bString">Bb</div></div>
+						<div class="string"><div class="note f# gb gString">Gb</div></div>
+						<div class="string"><div class="note c# db dString">Db</div></div>
+						<div class="string"><div class="note g# ab aString">Ab</div></div>
+						<div class="string"><div class="note d# eb leString">Eb</div></div>
+					</div>
+					<div class="fret" id="Fret12">
+						<div class="fretLabel">12</div>
+						<div class="string"></div>
+						<div class="string"><div class="note e heString">E</div></div>
+						<div class="string"><div class="note b bString">B</div></div>
+						<div class="string"><div class="note g gString">G</div></div>
+						<div class="string"><div class="note d dString">D</div></div>
+						<div class="string"><div class="note a aString">A</div></div>
+						<div class="string"><div class="note e leString">E</div></div>
+					</div>
+					<div class="fret" id="Fret13">
+						<div class="fretLabel">13</div>
+						<div class="string"></div>
+						<div class="string"><div class="note f heString">F</div></div>
+						<div class="string"><div class="note c bString">C</div></div>
+						<div class="string"><div class="note g# ab gString">Ab</div></div>
+						<div class="string"><div class="note d# eb dString">Eb</div></div>
+						<div class="string"><div class="note a# bb aString">Bb</div></div>
+						<div class="string"><div class="note f leString">F</div></div>
+					</div>
+					<div class="fret" id="Fret14">
+						<div class="fretLabel">14</div>
+						<div class="string"></div>
+						<div class="string"><div class="note f# gb heString">Gb</div></div>
+						<div class="string"><div class="note c# db bString">Db</div></div>
+						<div class="string"><div class="note a gString">A</div></div>
+						<div class="string"><div class="note e dString">E</div></div>
+						<div class="string"><div class="note b aString">B</div></div>
+						<div class="string"><div class="note f# gb leString">Gb</div></div>
+					</div>
+					<div class="fret" id="Fret15">
+						<div class="fretLabel">15</div>
+						<div class="string"></div>
+						<div class="string"><div class="note g heString">G</div></div>
+						<div class="string"><div class="note d bString">D</div></div>
+						<div class="string"><div class="note a# bb gString">Bb</div></div>
+						<div class="string"><div class="note f dString">F</div></div>
+						<div class="string"><div class="note c aString">C</div></div>
+						<div class="string"><div class="note g leString">G</div></div>
+					</div>
+					<div class="fret" id="Fret16">
+						<div class="fretLabel">16</div>
+						<div class="string"></div>
+						<div class="string"><div class="note g# ab heString">Ab</div></div>
+						<div class="string"><div class="note d# eb bString">Eb</div></div>
+						<div class="string"><div class="note b gString">G</div></div>
+						<div class="string"><div class="note f# gb dString">Gb</div></div>
+						<div class="string"><div class="note c# db aString">Db</div></div>
+						<div class="string"><div class="note g# ab leString">Ab</div></div>
+					</div>
+					<div class="fret" id="Fret17">
+						<div class="fretLabel">17</div>
+						<div class="string"></div>
+						<div class="string"><div class="note a heString">A</div></div>
+						<div class="string"><div class="note e bString">E</div></div>
+						<div class="string"><div class="note c gString">C</div></div>
+						<div class="string"><div class="note g dString">G</div></div>
+						<div class="string"><div class="note d aString">D</div></div>
+						<div class="string"><div class="note a leString">A</div></div>
+					</div>
+				</div>
+				<div id="keyBoard">
+					<!-- Low Octave -->
+					<div class="whitePianoKey"><div class="whitePianoNote note c">C</div></div>
+					<div id="db" class="blackPianoKey"><div class="blackPianoNote note db c#">Db</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note d">D</div></div>
+					<div id="eb" class="blackPianoKey"><div class="blackPianoNote note eb d#">Eb</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note e">E</div></div>
+
+					<div class="whitePianoKey"><div class="whitePianoNote note f">F</div></div>
+					<div id="gb" class="blackPianoKey"><div class="blackPianoNote note gb f#">Gb</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note g">G</div></div>
+					<div id="ab" class="blackPianoKey"><div class="blackPianoNote note ab g#">Ab</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note a">A</div></div>
+					<div id="bb" class="blackPianoKey"><div class="blackPianoNote note bb a#">Bb</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note b">B</div></div>
+
+					<!-- High Octave -->
+					<div class="whitePianoKey"><div class="whitePianoNote note c">C</div></div>
+					<div id="highdb" class="blackPianoKey"><div class="blackPianoNote note db c#">Db</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note d">D</div></div>
+					<div id="higheb" class="blackPianoKey"><div class="blackPianoNote note eb d#">Eb</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note e">E</div></div>
+
+					<div class="whitePianoKey"><div class="whitePianoNote note f">F</div></div>
+					<div id="highgb" class="blackPianoKey"><div class="blackPianoNote note gb f#">Gb</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note g">G</div></div>
+					<div id="highab" class="blackPianoKey"><div class="blackPianoNote note ab g#">Ab</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note a">A</div></div>
+					<div id="highbb" class="blackPianoKey"><div class="blackPianoNote note bb a#">Bb</div></div>
+					<div class="whitePianoKey"><div class="whitePianoNote note b">B</div></div>
+				</div>
+				<!-- <div id="guitarLegend">
+					<p><a href="#">Pentatonic</a></p>
+					<p><a href="#">Major</a></p>
+					<p><a href="#">Minor</a></p>
+				</div> -->
+				<div id="fretBoardSelectKey">
+					<p>Select a key to show only the notes in the selected key:</p>
+					<ul>
+						<li><a href="#" id="fretBoardc">C</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardam">Am</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardcS_db">C#/Db</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardaSm_bbm">A#m/Bbm</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardd">D</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardbm">Bm</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardeb">Eb</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardcm">Cm</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoarde">E</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardcSm">C#m</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardf">F</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoarddm">Dm</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardfS_gb">F#/Gb</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardebm_dSm">Ebm/D#m</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardg">G</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardem">Em</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardab">Ab</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardfm">Fm</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoarda">A</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardfSm">F#m</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardbb">Bb</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardgm">Gm</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardb">B</a></li>&nbsp;//&nbsp;
+						<li><a href="#" id="fretBoardabm_gSm">Abm/G#m</a></li>&nbsp;//&nbsp;
+					</ul>
+				</div>
+				<h3 id="fretBoardHeader">What Key Am I In - fretBoard<h3>
+				<ul id="guitarPopFretKeyLinkUL">
+					<li id="guitarPopFretBoardLink"><a href="#">fretBoard</a>  //  </li>
+					<li id="guitarPopKeyBoardLink"><a href="#">keyBoard</a></li>
+				</ul>
+				<div id="closeGuitarPop">
+					<p><span><a href="#">X</a></span></p>
+				</div>
+			</div>
+			<div class="leftAd">
+				<script type="text/javascript">
+					google_ad_client = "ca-pub-5653507966255124";
+					/* KeyFinder_Left_Tall */
+					google_ad_slot = "7675836486";
+					google_ad_width = 160;
+					google_ad_height = 600;
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			</div>
+			<div id="main">
+				<h3>Input one or more chords:</h3>
+				<div id="chordInputDiv" class="leftDivs">
+					<form id="chordInputForm" name="chordInput" action="submitChords()">
+						<table id="chordInputTable">
+							<tr>
+								<td>1st:</td>
+								<td>
+									<select id="1stChord" name="1stChord" class="inputChord">
+										<option value="a">A</option>
+										<option value="b">B</option>
+										<option value="c">C</option>
+										<option value="d">D</option>
+										<option value="e">E</option>
+										<option value="f">F</option>
+										<option value="g">G</option>
+									</select>
+								</td>
+								<td>
+									<select id="1stForB" name="1stForB" class="inputChord">
+										<option value="">Natural</option>
+										<option value="#">#</option>
+										<option value="b">b</option>
+									</select>
+								</td>
+								<td>
+									<select id="1stmOrM" name="1stmOrM" class="inputChord">
+										<option value="Maj">Major</option>
+										<option value="m">Minor</option>
+										<option value="dom">Dominant</option>
+									</select>
+								</td>
+								<td>
+									<select id="1stOther" name="1stOther" class="inputChord">
+										<option value=""> -- </option>
+										<option value="5">5th</option>
+										<option value="7">7th</option>
+										<option value="7b5">7b5th</option>
+										<!--<option value="9">9th</option>
+										<option value="11">11th</option>
+										<option value="sus">Sus</option>
+										<option value="dim">Dim</option> -->
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>2nd:</td>
+								<td>
+									<select id="2ndChord" name="2ndChord" class="inputChord">
+										<option value="a">A</option>
+										<option value="b">B</option>
+										<option value="c">C</option>
+										<option value="d">D</option>
+										<option value="e">E</option>
+										<option value="f">F</option>
+										<option value="g">G</option>
+									</select>
+								</td>
+								<td>
+									<select id="2ndForB" name="2ndForB" class="inputChord">
+										<option value="">Natural</option>
+										<option value="#">#</option>
+										<option value="b">b</option>
+									</select>
+								</td>
+								<td>
+									<select id="2ndmOrM" name="2ndmOrM" class="inputChord">
+										<option value="Maj">Major</option>
+										<option value="m">Minor</option>
+										<option value="dom">Dominant</option>
+									</select>
+								</td>
+								<td>
+									<select id="2ndOther" name="2ndOther" class="inputChord">
+										<option value=""> -- </option>
+										<option value="5">5th</option>
+										<option value="7">7th</option>
+										<option value="7b5">7b5th</option>
+										<!-- <option value="9">9th</option>
+										<option value="11">11th</option>
+										<option value="sus">Sus</option>
+										<option value="dim">Dim</option> -->
+									</select>
+								</td>
+							</tr>
+						</table>
+					</form>
+								
+					<p><a id="addAChord" href="#">Add Another Chord</a></p>
+					<p><a id="removeChord" href="#">Remove a Chord</a></p>
+					<p>
+						<button id="getKey" type="button">Get the Key!</button>
+						<button id="clearResults" type="button">Clear Results</button>
+					</p>
+
+				</div>
+				<div id="errorDiv" class="leftDivs">
+					<p id="errorP"></p>
+				</div>
+			</div>
+			<div class="rightAd">
+				<script type="text/javascript">
+					google_ad_client = "ca-pub-5653507966255124";
+					/* KeyFinder_Right_Tall */
+					google_ad_slot = "5200048087";
+					google_ad_width = 160;
+					google_ad_height = 600;
+				</script>
+				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			</div>
+			<!--Facebook like button-->
+			<iframe id="likeButton" src="https://www.facebook.com/plugins/like.php?href=http://www.whatkeyamiin.com" layout="standard" show_faces="true" font="trebuchet ms" scrolling="no" frameborder="0" colorscheme="dark" style="border:none; width:450px; height:80px"></iframe>
+		</div>
+		<footer>
+			<nav>
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact Us</a></li>
+				</ul>
+			</nav>
+			<p><em>What Key Am I In? designed by Jason Ackerman, Copyright 2013<em></p>
+		</footer>
+	</body>
+</html>

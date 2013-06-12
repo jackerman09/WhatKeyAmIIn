@@ -1,0 +1,67 @@
+body{
+	background-color:#fcfcfc;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+header{
+
+}
+header h1{
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+nav{
+	/*border:1px solid #c0c9cd;*/
+	width: 30%;
+
+	border-radius: 5px;
+
+	margin-top:-15px;
+
+	padding:  0px 0px;
+
+	background-color: #c0c9cd;
+}
+nav ul li{
+	display:inline-block;
+
+	background-color:#2485db;
+
+	border-radius:5px;
+	padding:3px 8px;
+
+	font-size: 20px;
+
+}
+nav ul li a{
+	text-decoration: none;
+	color:white;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+nav ul li a:hover{
+	text-decoration: underline;
+}
+div.leftDivs{
+	width: 30%;
+
+	background-color: #c0c9cd;
+
+	border-radius: 5px;
+
+	margin-bottom: 20px;
+}
+div.leftDivs p, div.leftDivs table{
+	padding-left: 20px;
+}
+form#chordInputForm input{
+	border-radius: 2px;
+}
+form#chordInputForm input#getKey{
+	border-radius: 3px;	
+}
+form#chordInputForm tr:nth-child(2){
+
+}
+
+div#errorDiv p#errorP{
+	color:navy;
+	font-weight: bold;
+}
